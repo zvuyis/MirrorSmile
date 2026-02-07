@@ -3,67 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>דרך האמצע</title>
+    <title>MirrorSmile</title>
     <script src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation"></script>
     <style>
-        :root { --accent: #4ebaba; --bg-glass: rgba(255, 255, 255, 0.1); --text-main: #e0e0e0; }
+        :root { --accent: #4ebaba; --bg-glass: rgba(15, 20, 25, 0.9); --text-main: #e0e0e0; }
         body { margin: 0; background: #0a0c10; overflow: hidden; font-family: 'Segoe UI', Roboto, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; color: var(--text-main); }
         
-        /* שכבות ומסכים */
-        .screen { position: absolute; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; flex-direction: column; z-index: 200; transition: opacity 0.5s; }
+        .screen { position: absolute; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; flex-direction: column; z-index: 200; transition: opacity 0.5s; padding: 20px; box-sizing: border-box; }
         canvas { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); max-width: 100%; max-height: 100%; object-fit: contain; display: none; }
         video { display: none; }
 
-        /* עיצוב כרטיסי תוכן */
-        .content-card { text-align: center; padding: 30px; max-width: 350px; background: rgba(15, 20, 25, 0.85); border-radius: 30px; backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 15px 35px rgba(0,0,0,0.5); }
-        #app-logo { width: 140px; height: 140px; margin-bottom: 20px; border-radius: 50%; border: 1px solid var(--accent); background: #fff; object-fit: contain; padding: 8px; }
-        h1 { font-size: 38px; margin: 0 0 10px 0; color: #fff; }
-        h2 { font-size: 24px; color: var(--accent); margin-top: 0; }
-        p { font-size: 18px; margin-bottom: 30px; opacity: 0.9; font-weight: 300; }
-
-        /* רשימת הוראות */
-        .instructions-list { text-align: right; margin: 25px 0; padding: 0; list-style: none; }
-        .instructions-list li { margin-bottom: 15px; font-size: 16px; display: flex; align-items: flex-start; gap: 10px; line-height: 1.4; }
-        .instructions-list li::before { content: "•"; color: var(--accent); font-weight: bold; font-size: 20px; }
-
-        .main-btn { padding: 16px 40px; border-radius: 30px; background: var(--accent); color: #000; font-size: 18px; font-weight: 600; border: none; cursor: pointer; box-shadow: 0 4px 15px rgba(78, 186, 186, 0.3); transition: transform 0.2s; }
-        .main-btn:active { transform: scale(0.95); }
-
-        /* ממשק שליטה (מסך 3) */
-        #ui { position: absolute; bottom: 35px; width: 100%; display: none; flex-direction: column; align-items: center; gap: 15px; z-index: 100; }
-        .controls-row { display: flex; gap: 10px; justify-content: center; align-items: center; }
-        button.tool-btn { padding: 12px 16px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.2); background: var(--bg-glass); color: #fff; backdrop-filter: blur(5px); cursor: pointer; }
-        button.active { background: var(--accent); color: #000; border-color: var(--accent); }
+        .content-card { 
+            text-align: center; 
+            padding: 30px; 
+            max-width: 500px; 
+            max-height: 85vh;
+            background: var(--bg-glass); 
+            border-radius: 30px; 
+            backdrop-filter: blur(15px); 
+            border: 1px solid rgba(255,255,255,0.1); 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5); 
+            overflow-y: auto;
+        }
         
-        #slider-container { width: 80%; max-width: 350px; background: var(--bg-glass); padding: 12px 20px; border-radius: 20px; backdrop-filter: blur(5px); }
+        #app-logo { width: 100px; height: 100px; margin-bottom: 15px; border-radius: 50%; border: 1px solid var(--accent); background: #fff; object-fit: contain; padding: 5px; }
+        h1 { font-size: 32px; margin: 0 0 15px 0; color: var(--accent); }
+        
+        .intro-text { 
+            font-size: 16px; 
+            line-height: 1.6; 
+            margin-bottom: 25px; 
+            text-align: right; 
+            font-weight: 300;
+            color: #f0f0f0;
+        }
+        
+        .intro-text p { margin-bottom: 12px; }
+
+        .instructions-list { text-align: right; margin: 25px 0; padding: 0; list-style: none; }
+        .instructions-list li { margin-bottom: 12px; font-size: 16px; display: flex; align-items: flex-start; gap: 10px; }
+        .instructions-list li::before { content: "•"; color: var(--accent); font-weight: bold; }
+
+        .main-btn { padding: 14px 40px; border-radius: 30px; background: var(--accent); color: #000; font-size: 18px; font-weight: 600; border: none; cursor: pointer; box-shadow: 0 4px 15px rgba(78, 186, 186, 0.3); }
+
+        #ui { position: absolute; bottom: 35px; width: 100%; display: none; flex-direction: column; align-items: center; gap: 15px; z-index: 100; }
+        .controls-row { display: flex; gap: 10px; justify-content: center; }
+        button.tool-btn { padding: 12px 16px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); color: #fff; cursor: pointer; }
+        button.active { background: var(--accent); color: #000; }
+        
+        #slider-container { width: 80%; max-width: 350px; background: rgba(255,255,255,0.1); padding: 12px 20px; border-radius: 20px; }
         input[type=range] { width: 100%; accent-color: var(--accent); }
 
-        /* ווטרמרק זכויות יוצרים */
-        .watermark { position: absolute; bottom: 8px; font-size: 10px; color: rgba(255,255,255,0.25); z-index: 210; width: 100%; text-align: center; pointer-events: none; letter-spacing: 0.5px; }
-        
-        #recBtn.recording { border-color: #ff5e5e; color: #ff5e5e; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        .watermark { position: absolute; bottom: 8px; font-size: 10px; color: rgba(255,255,255,0.25); z-index: 210; width: 100%; text-align: center; }
     </style>
 </head>
 <body>
 
     <div id="screen-1" class="screen">
         <div class="content-card">
-            <img src="logo.png" id="app-logo" alt="Logo">
-            <h1>דרך האמצע</h1>
-            <p>החזר לעצמך את הסימטריה</p>
+            <img src="logo.png" id="app-logo" alt="MirrorSmile Logo">
+            <h1>MirrorSmile</h1>
+            <div class="intro-text">
+                <p><strong>ברוכים הבאים ל-MirrorSmile.</strong></p>
+                <p>MirrorSmile היא אפליקציית אימון מבוססת תרפיית מראה, המיועדת לאנשים המתמודדים עם שיתוק זמני של עצב הפנים (Bell’s palsy).</p>
+                <p>שיתוק עצב הפנים הוא תופעה נפוצה, שלרוב חולפת עם הזמן. עם זאת, עבור רבים תהליך ההחלמה עשוי להיות ממושך, מתסכל ולעיתים מלווה בחוסר ודאות.</p>
+                <p>האפליקציה נועדה ללוות תהליך שיקומי עדין, מודע והדרגתי, מתוך אמון ביכולת המוח ללמוד מחדש ולשפר תפקוד באמצעות אימון עקבי, סבלני ומכוון.</p>
+                <p>MirrorSmile פותחה על-ידי דקל צידון וישי זבולון, במטרה להנגיש תרפיית מראה ככלי אימון דיגיטלי פשוט, זמין וידידותי למשתמש.</p>
+            </div>
             <button class="main-btn" onclick="goToInstructions()">להוראות השימוש</button>
         </div>
     </div>
 
     <div id="screen-2" class="screen" style="display:none; opacity:0;">
         <div class="content-card">
-            <h2>איך זה עובד?</h2>
+            <h1>איך זה עובד?</h1>
             <ul class="instructions-list">
                 <li>עמדו מול המצלמה והביטו קדימה בקו ישר.</li>
-                <li>בחרו צד (ימין/שמאל) כדי לראות את הפנים בסימטריה מלאה.</li>
-                <li>ניתן להשתמש בסליידר לכיוונון ידני מדויק או להסתיר את הקו לצילום נקי.</li>
+                <li>בחרו את הצד הבריא (ימין/שמאל) כדי לשקף אותו על הצד המשותק.</li>
+                <li>השתמשו בסליידר לכיוונון ידני מדויק במידת הצורך.</li>
             </ul>
             <button class="main-btn" onclick="startCamera()">הבנתי, בואו נתחיל</button>
         </div>
@@ -87,17 +105,12 @@
             <button onclick="setMode('right')" id="btnRight" class="tool-btn">ימין</button>
             <button onclick="toggleGuide()" id="btnGuide" class="tool-btn">👁️</button>
             <button onclick="takeSnapshot()" class="tool-btn">📸</button>
-            <button onclick="toggleRecording()" id="recBtn" class="tool-btn">⏺</button>
         </div>
     </div>
 
-    <div class="watermark">© 2026 | Developed by Dekel Tzidon & Yishay Zvulun | All Rights Reserved</div>
+    <div class="watermark">© 2026 | MirrorSmile | Developed by Dekel Tzidon & Yishay Zvulun</div>
 
     <script>
-        /**
-         * (c) 2026 "Derech HaEmtza". All Rights Reserved.
-         * Logic & Development: Dekel Tzidon & Yishay Zvulun.
-         */
         const video = document.getElementById('videoElement');
         const canvas = document.getElementById('mainCanvas');
         const ctx = canvas.getContext('2d');
@@ -106,7 +119,7 @@
         const slider = document.getElementById('symmetrySlider');
 
         let currentMode = 'none', smoothNoseX = 0, selfieSegmentation;
-        let isManual = false, showGuide = true, isRecording = false, mediaRecorder, recordedChunks = [];
+        let isManual = false, showGuide = true;
 
         function goToInstructions() {
             document.getElementById('screen-1').style.opacity = '0';
@@ -129,7 +142,7 @@
 
         function manualAdjust(val) { isManual = true; smoothNoseX = (val / 100) * canvas.width; }
         function resetAuto() { isManual = false; }
-        function toggleGuide() { showGuide = !showGuide; document.getElementById('btnGuide').classList.toggle('active', !showGuide); }
+        function toggleGuide() { showGuide = !showGuide; }
 
         async function initModels() {
             await faceapi.nets.tinyFaceDetector.loadFromUri('https://cdn.jsdelivr.net/npm/@vladmandic/face-api/model/');
@@ -137,6 +150,7 @@
             selfieSegmentation = new SelfieSegmentation({locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation/${file}`});
             selfieSegmentation.setOptions({ modelSelection: 1 });
             selfieSegmentation.onResults(onResults);
+            
             const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
             video.srcObject = stream;
             video.onloadedmetadata = () => {
@@ -155,7 +169,6 @@
         async function onResults(results) {
             tCtx.save();
             tCtx.clearRect(0, 0, canvas.width, canvas.height);
-            // היפוך למצב מראה
             tCtx.translate(canvas.width, 0);
             tCtx.scale(-1, 1);
             tCtx.drawImage(results.segmentationMask, 0, 0, canvas.width, canvas.height);
@@ -182,7 +195,7 @@
             }
 
             if (showGuide && (isManual || currentMode !== 'none')) {
-                ctx.beginPath(); ctx.strokeStyle = 'rgba(78, 186, 186, 0.4)'; ctx.lineWidth = 1.2;
+                ctx.beginPath(); ctx.strokeStyle = 'rgba(78, 186, 186, 0.4)';
                 ctx.moveTo(smoothNoseX, 0); ctx.lineTo(smoothNoseX, canvas.height); ctx.stroke();
             }
         }
@@ -201,35 +214,9 @@
 
         function takeSnapshot() {
             const l = document.createElement('a');
-            l.download = 'Derech-HaEmtza.png';
+            l.download = 'MirrorSmile-Snapshot.png';
             l.href = canvas.toDataURL('image/png');
             l.click();
-        }
-
-        function toggleRecording() {
-            const btn = document.getElementById('recBtn');
-            if (!isRecording) {
-                recordedChunks = [];
-                const stream = canvas.captureStream(30);
-                mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
-                mediaRecorder.ondataavailable = (e) => e.data.size > 0 && recordedChunks.push(e.data);
-                mediaRecorder.onstop = () => {
-                    const blob = new Blob(recordedChunks, { type: 'video/webm' });
-                    const a = document.createElement('a');
-                    a.href = URL.createObjectURL(blob);
-                    a.download = 'Derech-HaEmtza.webm';
-                    a.click();
-                };
-                mediaRecorder.start();
-                btn.classList.add('recording');
-                btn.innerText = '⏹';
-                isRecording = true;
-            } else {
-                mediaRecorder.stop();
-                btn.classList.remove('recording');
-                btn.innerText = '⏺';
-                isRecording = false;
-            }
         }
     </script>
 </body>
