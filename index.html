@@ -14,43 +14,42 @@
         canvas { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); max-width: 100%; max-height: 100%; object-fit: contain; display: none; }
         video { display: none; }
 
+        /* כרטיס תוכן */
         .content-card { 
-            text-align: center; 
-            padding: 30px; 
-            max-width: 450px; 
-            max-height: 85vh;
-            background: var(--bg-glass); 
-            border-radius: 30px; 
-            backdrop-filter: blur(15px); 
-            border: 1px solid rgba(255,255,255,0.1); 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5); 
-            overflow-y: auto;
+            text-align: center; padding: 30px; max-width: 500px; max-height: 85vh;
+            background: var(--bg-glass); border-radius: 30px; backdrop-filter: blur(15px); 
+            border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 15px 35px rgba(0,0,0,0.5); 
+            overflow-y: auto; scrollbar-width: thin;
         }
         
-        #app-logo { width: 120px; height: 120px; margin-bottom: 20px; border-radius: 50%; border: 1px solid var(--accent); background: #fff; object-fit: contain; padding: 5px; }
-        h1 { font-size: 36px; margin: 0 0 20px 0; color: #fff; letter-spacing: 1px; }
-        h2 { font-size: 24px; color: var(--accent); margin-bottom: 15px; }
+        #app-logo { width: 100px; height: 100px; margin-bottom: 20px; border-radius: 50%; border: 1px solid var(--accent); background: #fff; object-fit: contain; padding: 5px; }
+        h1 { font-size: 32px; margin: 0 0 20px 0; color: #fff; }
+        h2 { font-size: 22px; color: var(--accent); margin-bottom: 15px; border-bottom: 1px solid rgba(78, 186, 186, 0.3); padding-bottom: 10px; }
         
-        .intro-text { font-size: 16px; line-height: 1.6; margin-bottom: 25px; text-align: right; font-weight: 300; color: #f0f0f0; }
-        .intro-text p { margin-bottom: 12px; }
+        .intro-text { font-size: 15px; line-height: 1.6; margin-bottom: 25px; text-align: right; font-weight: 300; color: #f0f0f0; }
+        .intro-text p { margin-bottom: 15px; }
 
-        .instructions-list { text-align: right; margin: 25px 0; padding: 0; list-style: none; }
-        .instructions-list li { margin-bottom: 15px; font-size: 17px; display: flex; align-items: flex-start; gap: 10px; }
-        .instructions-list li::before { content: "•"; color: var(--accent); font-weight: bold; font-size: 20px; }
+        /* כפתורים */
+        .btn-group { display: flex; flex-direction: column; gap: 10px; width: 100%; align-items: center; }
+        .about-footer-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; max-width: 320px; margin-bottom: 5px; }
+        .main-btn { width: 100%; max-width: 280px; padding: 14px; border-radius: 30px; background: var(--accent); color: #000; font-size: 17px; font-weight: 600; border: none; cursor: pointer; transition: transform 0.2s; }
+        .secondary-btn { width: 100%; max-width: 280px; padding: 12px; border-radius: 30px; background: transparent; color: var(--accent); font-size: 16px; border: 1px solid var(--accent); cursor: pointer; }
+        .tiny-btn { width: 100%; padding: 10px; border-radius: 15px; background: rgba(255,255,255,0.05); color: #fff; font-size: 13px; border: 1px solid rgba(255,255,255,0.2); cursor: pointer; }
+        .disclaimer-link { background: none; border: none; color: #aaa; text-decoration: underline; font-size: 12px; cursor: pointer; margin-top: 10px; opacity: 0.7; }
 
-        .btn-group { display: flex; flex-direction: column; gap: 12px; width: 100%; align-items: center; }
-        .main-btn { width: 100%; max-width: 250px; padding: 14px; border-radius: 30px; background: var(--accent); color: #000; font-size: 17px; font-weight: 600; border: none; cursor: pointer; transition: transform 0.2s; }
-        .secondary-btn { width: 100%; max-width: 250px; padding: 12px; border-radius: 30px; background: transparent; color: var(--accent); font-size: 16px; border: 1px solid var(--accent); cursor: pointer; }
-        .main-btn:active, .secondary-btn:active { transform: scale(0.97); }
+        /* חלון מודאלי (Pop-up) */
+        .modal { display: none; position: fixed; z-index: 300; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); justify-content: center; align-items: center; }
+        .modal-content { background: #1a1e23; padding: 25px; border-radius: 20px; width: 85%; max-width: 400px; text-align: right; border: 1px solid var(--accent); box-shadow: 0 0 20px rgba(78, 186, 186, 0.2); }
+        .modal-content h3 { color: var(--accent); margin-top: 0; }
+        .close-modal { width: 100%; margin-top: 20px; padding: 10px; background: var(--accent); border: none; border-radius: 10px; cursor: pointer; font-weight: bold; }
 
+        /* ממשק מצלמה */
         #ui { position: absolute; bottom: 35px; width: 100%; display: none; flex-direction: column; align-items: center; gap: 15px; z-index: 100; }
         .controls-row { display: flex; gap: 10px; justify-content: center; }
-        button.tool-btn { padding: 12px 16px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); color: #fff; cursor: pointer; backdrop-filter: blur(5px); }
+        button.tool-btn { padding: 12px 16px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); color: #fff; cursor: pointer; }
         button.active { background: var(--accent); color: #000; }
-        
         #slider-container { width: 80%; max-width: 350px; background: rgba(0,0,0,0.4); padding: 12px 20px; border-radius: 20px; }
         input[type=range] { width: 100%; accent-color: var(--accent); }
-
         .watermark { position: absolute; bottom: 8px; font-size: 10px; color: rgba(255,255,255,0.25); z-index: 210; width: 100%; text-align: center; pointer-events: none; }
     </style>
 </head>
@@ -71,19 +70,55 @@
         <div class="content-card">
             <h2>אודות MirrorSmile</h2>
             <div class="intro-text">
-                <p>MirrorSmile היא אפליקציית אימון מבוססת תרפיית מראה, המיועדת לאנשים המתמודדים עם שיתוק זמני של עצב הפנים (Bell’s palsy).</p>
-                <p>שיתוק עצב הפנים הוא תופעה נפוצה, שלרוב חולפת עם הזמן. עם זאת, עבור רבים תהליך ההחלמה עשוי להיות ממושך, מתסכל ולעיתים מלווה בחוסר ודאות.</p>
-                <p>האפליקציה נועדה ללוות תהליך שיקומי עדין, מודע והדרגתי, מתוך אמון ביכולת המוח ללמוד מחדש ולשפר תפקוד באמצעות אימון עקבי, סבלני ומכוון.</p>
-                <p>MirrorSmile פותחה על-ידי דקל צידון וישי זבולון, במטרה להנגיש תרפיית מראה ככלי אימון דיגיטלי פשוט, זמין וידידותי למשתמש.</p>
+                <p>MirrorSmile נולדה מתוך עקרון <strong>הנוירופלסטיות</strong> — יכולתו של המוח להשתנות, להסתגל ולהחלים בעקבות אימון, חזרה ומשוב מתאים.</p>
+                <p>עיקרון זה מתואר בהרחבה בספר „המוח הגמיש” (The Brain That Changes Itself) מאת נורמן דוידג’, המדגים כיצד תהליכי אימון מכוונים יכולים להשפיע על תפקוד מוחי ושיקומי. בפרק 7 בספר מתוארת בין השאר תרומתו של פרופ’ רמאצ’נדרן לשדה זה.</p>
+                <p>האפליקציה מבוססת על עקרונות <strong>Mirror Therapy</strong> — שיטה שיקומית המשתמשת במשוב חזותי כדי לעודד הפעלה מוחית ותנועתית.</p>
+                <p>השיטה פותחה בשנות ה‑90 על‑ידי הנוירולוג Vilayanur Subramanian Ramachandran, תחילה לטיפול בכאבי פנטום לאחר קטיעת גפיים, ובהמשך יושמה גם בשיקום מוטורי ונוירולוגי, כולל שיתוקי פנים.</p>
             </div>
-            <button class="main-btn" onclick="showScreen(3)">להוראות השימוש</button>
+            
+            <div class="btn-group">
+                <div class="about-footer-btns">
+                    <button class="tiny-btn" onclick="openModal('usersModal')">קריאה למשתמשים</button>
+                    <button class="tiny-btn" onclick="openModal('researchModal')">קריאה לחוקרים</button>
+                </div>
+                <button class="disclaimer-link" onclick="openModal('disclaimerModal')">אחריות השימוש</button>
+                <br>
+                <button class="main-btn" onclick="showScreen(3)">להמשך להוראות</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="usersModal" class="modal">
+        <div class="modal-content">
+            <h3>קריאה למשתמשים</h3>
+            <p>אנו מזמינים אנשים הסובלים משיתוק עצב הפנים להשתמש ב‑MirrorSmile כחלק מתהליך ההחלמה, בקצב אישי, בסבלנות ובהקשבה לגוף.</p>
+            <p>נשמח לקבל משוב, חוויות שימוש, הצעות לשיפור ורעיונות לפיתוח עתידי.</p>
+            <button class="close-modal" onclick="closeModal('usersModal')">סגור</button>
+        </div>
+    </div>
+
+    <div id="researchModal" class="modal">
+        <div class="modal-content">
+            <h3>קריאה לחוקרים</h3>
+            <p>חוקרים, רופאים ומוסדות אקדמיים מוזמנים להשתמש ב‑MirrorSmile ללא תמורה, לצורכי מחקר רפואי‑מדעי.</p>
+            <p><strong>תנאי יחיד:</strong> כל פרסום, מאמר או עבודה אקדמית המבוססים על שימוש באפליקציה יכללו רפרנס ברור אל דקל צידון, ישי זבולון ואפליקציית MirrorSmile.</p>
+            <button class="close-modal" onclick="closeModal('researchModal')">סגור</button>
+        </div>
+    </div>
+
+    <div id="disclaimerModal" class="modal">
+        <div class="modal-content">
+            <h3>חשוב לדעת</h3>
+            <p>אפליקציה זו אינה מכשיר רפואי ואינה מהווה ייעוץ רפואי, אבחון או טיפול. השימוש באפליקציה נעשה באחריות המשתמש בלבד.</p>
+            <p>אין להפסיק או לשנות טיפול רפואי, פיזיותרפי או מעקב קליני ללא התייעצות עם רופא. במקרה של כאב או החמרה — יש להפסיק את השימוש ולפנות לאיש מקצוע.</p>
+            <button class="close-modal" onclick="closeModal('disclaimerModal')">הבנתי</button>
         </div>
     </div>
 
     <div id="screen-3" class="screen" style="display:none; opacity:0;">
         <div class="content-card">
             <h2>איך זה עובד?</h2>
-            <ul class="instructions-list">
+            <ul style="text-align: right; line-height: 1.8; margin-bottom: 25px; padding-right: 20px;">
                 <li>עמדו מול המצלמה והביטו קדימה בקו ישר.</li>
                 <li>בחרו את הצד הבריא (ימין/שמאל) כדי לשקף אותו על הצד המשותק.</li>
                 <li>השתמשו בסליידר לכיוונון ידני מדויק במידת הצורך.</li>
@@ -95,14 +130,10 @@
     <video id="videoElement" playsinline autoplay muted></video>
     <canvas id="mainCanvas"></canvas>
     <canvas id="tempCanvas" style="display:none"></canvas>
-    
     <div id="ui">
         <div id="slider-container">
             <input type="range" id="symmetrySlider" min="0" max="100" value="50" oninput="manualAdjust(this.value)">
-            <div style="display:flex; justify-content:space-between; font-size:10px; opacity:0.7;">
-                <span>מצב ידני</span>
-                <span onclick="resetAuto()" style="cursor:pointer; text-decoration:underline;">חזרה לאוטומטי 🔄</span>
-            </div>
+            <div style="display:flex; justify-content:space-between; font-size:10px; opacity:0.7;"><span>ידני</span><span onclick="resetAuto()" style="cursor:pointer; text-decoration:underline;">אוטומטי 🔄</span></div>
         </div>
         <div class="controls-row">
             <button onclick="setMode('none')" id="btnNone" class="tool-btn active">רגיל</button>
@@ -112,7 +143,6 @@
             <button onclick="takeSnapshot()" class="tool-btn">📸</button>
         </div>
     </div>
-
     <div class="watermark">© 2026 | MirrorSmile | Developed by Dekel Tzidon & Yishay Zvulun</div>
 
     <script>
@@ -122,39 +152,21 @@
         const tempCanvas = document.getElementById('tempCanvas');
         const tCtx = tempCanvas.getContext('2d');
         const slider = document.getElementById('symmetrySlider');
+        let currentMode = 'none', smoothNoseX = 0, selfieSegmentation, isManual = false, showGuide = true;
 
-        let currentMode = 'none', smoothNoseX = 0, selfieSegmentation;
-        let isManual = false, showGuide = true;
-
-        // פונקציה גנרית למעבר בין מסכים
         function showScreen(num) {
-            const screens = document.querySelectorAll('.screen');
-            screens.forEach(s => {
-                s.style.opacity = '0';
-                setTimeout(() => s.style.display = 'none', 400);
-            });
-            
-            setTimeout(() => {
-                const target = document.getElementById('screen-' + num);
-                target.style.display = 'flex';
-                setTimeout(() => target.style.opacity = '1', 50);
-            }, 450);
+            document.querySelectorAll('.screen').forEach(s => { s.style.opacity = '0'; setTimeout(() => s.style.display = 'none', 400); });
+            setTimeout(() => { const t = document.getElementById('screen-' + num); t.style.display = 'flex'; setTimeout(() => t.style.opacity = '1', 50); }, 450);
         }
+
+        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
         async function startCamera() {
-            const screens = document.querySelectorAll('.screen');
-            screens.forEach(s => s.style.opacity = '0');
-            setTimeout(() => {
-                screens.forEach(s => s.style.display = 'none');
-                canvas.style.display = 'block';
-                document.getElementById('ui').style.display = 'flex';
-            }, 450);
+            document.querySelectorAll('.screen').forEach(s => s.style.opacity = '0');
+            setTimeout(() => { document.querySelectorAll('.screen').forEach(s => s.style.display = 'none'); canvas.style.display = 'block'; document.getElementById('ui').style.display = 'flex'; }, 450);
             await initModels();
         }
-
-        function manualAdjust(val) { isManual = true; smoothNoseX = (val / 100) * canvas.width; }
-        function resetAuto() { isManual = false; }
-        function toggleGuide() { showGuide = !showGuide; }
 
         async function initModels() {
             await faceapi.nets.tinyFaceDetector.loadFromUri('https://cdn.jsdelivr.net/npm/@vladmandic/face-api/model/');
@@ -162,74 +174,51 @@
             selfieSegmentation = new SelfieSegmentation({locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation/${file}`});
             selfieSegmentation.setOptions({ modelSelection: 1 });
             selfieSegmentation.onResults(onResults);
-            
-            const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
-            video.srcObject = stream;
-            video.onloadedmetadata = () => {
-                canvas.width = tempCanvas.width = video.videoWidth;
-                canvas.height = tempCanvas.height = video.videoHeight;
-                smoothNoseX = canvas.width / 2;
-                sendToSegmentation();
-            };
+            const s = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
+            video.srcObject = s;
+            video.onloadedmetadata = () => { canvas.width = tempCanvas.width = video.videoWidth; canvas.height = tempCanvas.height = video.videoHeight; smoothNoseX = canvas.width/2; sendToSegmentation(); };
         }
 
-        async function sendToSegmentation() {
-            if (!video.paused && !video.ended) await selfieSegmentation.send({image: video});
-            requestAnimationFrame(sendToSegmentation);
+        async function sendToSegmentation() { if (!video.paused && !video.ended) await selfieSegmentation.send({image: video}); requestAnimationFrame(sendToSegmentation); }
+
+        function onResults(r) {
+            tCtx.save(); tCtx.clearRect(0,0,canvas.width,canvas.height); tCtx.translate(canvas.width,0); tCtx.scale(-1,1);
+            tCtx.drawImage(r.segmentationMask, 0,0,canvas.width,canvas.height);
+            tCtx.globalCompositeOperation = 'source-in'; tCtx.drawImage(r.image, 0,0,canvas.width,canvas.height); tCtx.restore();
+
+            handleFaceDetection();
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            if(currentMode==='none') ctx.drawImage(tempCanvas,0,0);
+            else if(currentMode==='left') drawSymmetry(0, smoothNoseX);
+            else drawSymmetry(smoothNoseX, canvas.width - smoothNoseX);
+
+            if(showGuide && (isManual || currentMode!=='none')) {
+                ctx.beginPath(); ctx.strokeStyle='rgba(78,186,186,0.4)'; ctx.moveTo(smoothNoseX,0); ctx.lineTo(smoothNoseX,canvas.height); ctx.stroke();
+            }
         }
 
-        async function onResults(results) {
-            tCtx.save();
-            tCtx.clearRect(0, 0, canvas.width, canvas.height);
-            tCtx.translate(canvas.width, 0);
-            tCtx.scale(-1, 1);
-            tCtx.drawImage(results.segmentationMask, 0, 0, canvas.width, canvas.height);
-            tCtx.globalCompositeOperation = 'source-in';
-            tCtx.drawImage(results.image, 0, 0, canvas.width, canvas.height);
-            tCtx.restore();
-
-            if (!isManual) {
-                const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks();
-                if (detections.length > 0) {
-                    const noseX = canvas.width - detections[0].landmarks.getNose()[0].x;
-                    smoothNoseX += (noseX - smoothNoseX) * 0.15;
-                    slider.value = (smoothNoseX / canvas.width) * 100;
+        async function handleFaceDetection() {
+            if(!isManual) {
+                const d = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks();
+                if(d.length > 0) {
+                    const nx = canvas.width - d[0].landmarks.getNose()[0].x;
+                    smoothNoseX += (nx - smoothNoseX) * 0.15;
+                    slider.value = (smoothNoseX/canvas.width)*100;
                 }
             }
-
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            if (currentMode === 'none') {
-                ctx.drawImage(tempCanvas, 0, 0);
-            } else if (currentMode === 'left') {
-                drawSymmetry(0, smoothNoseX);
-            } else if (currentMode === 'right') {
-                drawSymmetry(smoothNoseX, canvas.width - smoothNoseX);
-            }
-
-            if (showGuide && (isManual || currentMode !== 'none')) {
-                ctx.beginPath(); ctx.strokeStyle = 'rgba(78, 186, 186, 0.4)';
-                ctx.moveTo(smoothNoseX, 0); ctx.lineTo(smoothNoseX, canvas.height); ctx.stroke();
-            }
         }
 
-        function drawSymmetry(sourceX, width) {
-            ctx.drawImage(tempCanvas, sourceX, 0, width, canvas.height, sourceX, 0, width, canvas.height);
+        function drawSymmetry(sx, w) {
+            ctx.drawImage(tempCanvas, sx, 0, w, canvas.height, sx, 0, w, canvas.height);
             ctx.save(); ctx.translate(smoothNoseX * 2, 0); ctx.scale(-1, 1);
-            ctx.drawImage(tempCanvas, sourceX, 0, width, canvas.height, sourceX, 0, width, canvas.height); ctx.restore();
+            ctx.drawImage(tempCanvas, sx, 0, w, canvas.height, sx, 0, w, canvas.height); ctx.restore();
         }
 
-        function setMode(m) {
-            currentMode = m;
-            document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById('btn' + m.charAt(0).toUpperCase() + m.slice(1)).classList.add('active');
-        }
-
-        function takeSnapshot() {
-            const l = document.createElement('a');
-            l.download = 'MirrorSmile-Snapshot.png';
-            l.href = canvas.toDataURL('image/png');
-            l.click();
-        }
+        function manualAdjust(v) { isManual = true; smoothNoseX = (v/100)*canvas.width; }
+        function resetAuto() { isManual = false; }
+        function toggleGuide() { showGuide = !showGuide; }
+        function setMode(m) { currentMode = m; document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active')); if(m!=='none') document.getElementById('btn'+m.charAt(0).toUpperCase()+m.slice(1)).classList.add('active'); else document.getElementById('btnNone').classList.add('active'); }
+        function takeSnapshot() { const l = document.createElement('a'); l.download = 'MirrorSmile.png'; l.href = canvas.toDataURL(); l.click(); }
     </script>
 </body>
 </html>
