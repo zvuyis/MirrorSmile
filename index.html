@@ -7,14 +7,13 @@
     <script src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation"></script>
     <style>
-        :root { --accent: #4ebaba; --bg-glass: rgba(15, 20, 25, 0.9); --text-main: #e0e0e0; }
+        :root { --accent: #4ebaba; --bg-glass: rgba(15, 20, 25, 0.9); --text-main: #e0e0e0; --warning: #ffb74d; }
         body { margin: 0; background: #0a0c10; overflow: hidden; font-family: 'Segoe UI', Roboto, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; color: var(--text-main); }
         
         .screen { position: absolute; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; flex-direction: column; z-index: 200; transition: opacity 0.4s ease; padding: 20px; box-sizing: border-box; }
         canvas { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); max-width: 100%; max-height: 100%; object-fit: contain; display: none; }
         video { display: none; }
 
-        /* כרטיס תוכן */
         .content-card { 
             text-align: center; padding: 30px; max-width: 500px; max-height: 85vh;
             background: var(--bg-glass); border-radius: 30px; backdrop-filter: blur(15px); 
@@ -26,24 +25,25 @@
         h1 { font-size: 32px; margin: 0 0 20px 0; color: #fff; }
         h2 { font-size: 22px; color: var(--accent); margin-bottom: 15px; border-bottom: 1px solid rgba(78, 186, 186, 0.3); padding-bottom: 10px; }
         
-        .intro-text { font-size: 15px; line-height: 1.6; margin-bottom: 25px; text-align: right; font-weight: 300; color: #f0f0f0; }
-        .intro-text p { margin-bottom: 15px; }
+        .intro-text { font-size: 15px; line-height: 1.6; margin-bottom: 20px; text-align: right; font-weight: 300; color: #f0f0f0; }
+        .instructions-list { text-align: right; margin: 20px 0; padding: 0; list-style: none; }
+        .instructions-list li { margin-bottom: 12px; font-size: 16px; display: flex; align-items: flex-start; gap: 10px; }
+        .instructions-list li::before { content: "•"; color: var(--accent); font-weight: bold; }
 
-        /* כפתורים */
         .btn-group { display: flex; flex-direction: column; gap: 10px; width: 100%; align-items: center; }
-        .about-footer-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; max-width: 320px; margin-bottom: 5px; }
-        .main-btn { width: 100%; max-width: 280px; padding: 14px; border-radius: 30px; background: var(--accent); color: #000; font-size: 17px; font-weight: 600; border: none; cursor: pointer; transition: transform 0.2s; }
+        .main-btn { width: 100%; max-width: 280px; padding: 14px; border-radius: 30px; background: var(--accent); color: #000; font-size: 17px; font-weight: 600; border: none; cursor: pointer; transition: 0.2s; }
         .secondary-btn { width: 100%; max-width: 280px; padding: 12px; border-radius: 30px; background: transparent; color: var(--accent); font-size: 16px; border: 1px solid var(--accent); cursor: pointer; }
-        .tiny-btn { width: 100%; padding: 10px; border-radius: 15px; background: rgba(255,255,255,0.05); color: #fff; font-size: 13px; border: 1px solid rgba(255,255,255,0.2); cursor: pointer; }
-        .disclaimer-link { background: none; border: none; color: #aaa; text-decoration: underline; font-size: 12px; cursor: pointer; margin-top: 10px; opacity: 0.7; }
+        
+        .disclaimer-box { background: rgba(255, 183, 77, 0.1); border: 1px solid var(--warning); padding: 20px; border-radius: 20px; text-align: right; margin-bottom: 25px; }
+        .disclaimer-box h3 { color: var(--warning); margin-top: 0; font-size: 18px; }
+        .disclaimer-box p { font-size: 14px; line-height: 1.5; margin-bottom: 10px; }
 
-        /* חלון מודאלי (Pop-up) */
+        /* Modals */
         .modal { display: none; position: fixed; z-index: 300; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); justify-content: center; align-items: center; }
-        .modal-content { background: #1a1e23; padding: 25px; border-radius: 20px; width: 85%; max-width: 400px; text-align: right; border: 1px solid var(--accent); box-shadow: 0 0 20px rgba(78, 186, 186, 0.2); }
-        .modal-content h3 { color: var(--accent); margin-top: 0; }
+        .modal-content { background: #1a1e23; padding: 25px; border-radius: 20px; width: 85%; max-width: 400px; text-align: right; border: 1px solid var(--accent); }
         .close-modal { width: 100%; margin-top: 20px; padding: 10px; background: var(--accent); border: none; border-radius: 10px; cursor: pointer; font-weight: bold; }
 
-        /* ממשק מצלמה */
+        /* UI המצלמה */
         #ui { position: absolute; bottom: 35px; width: 100%; display: none; flex-direction: column; align-items: center; gap: 15px; z-index: 100; }
         .controls-row { display: flex; gap: 10px; justify-content: center; }
         button.tool-btn { padding: 12px 16px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); color: #fff; cursor: pointer; }
@@ -70,66 +70,52 @@
         <div class="content-card">
             <h2>אודות MirrorSmile</h2>
             <div class="intro-text">
-                <p>MirrorSmile נולדה מתוך עקרון <strong>הנוירופלסטיות</strong> — יכולתו של המוח להשתנות, להסתגל ולהחלים בעקבות אימון, חזרה ומשוב מתאים.</p>
-                <p>עיקרון זה מתואר בהרחבה בספר „המוח הגמיש” (The Brain That Changes Itself) מאת נורמן דוידג’, המדגים כיצד תהליכי אימון מכוונים יכולים להשפיע על תפקוד מוחי ושיקומי. בפרק 7 בספר מתוארת בין השאר תרומתו של פרופ’ רמאצ’נדרן לשדה זה.</p>
-                <p>האפליקציה מבוססת על עקרונות <strong>Mirror Therapy</strong> — שיטה שיקומית המשתמשת במשוב חזותי כדי לעודד הפעלה מוחית ותנועתית.</p>
-                <p>השיטה פותחה בשנות ה‑90 על‑ידי הנוירולוג Vilayanur Subramanian Ramachandran, תחילה לטיפול בכאבי פנטום לאחר קטיעת גפיים, ובהמשך יושמה גם בשיקום מוטורי ונוירולוגי, כולל שיתוקי פנים.</p>
+                <p>MirrorSmile נולדה מתוך עקרון <strong>הנוירופלסטיות</strong> — יכולתו של המוח להשתנות ולהחלים בעקבות אימון ומשוב מתאים.</p>
+                <p>האפליקציה מבוססת על עקרונות <strong>Mirror Therapy</strong> — שיטה המשתמשת במשוב חזותי לעידוד הפעלה מוחית, שפותחה על-ידי פרופ' רמאצ'נדרן.</p>
             </div>
-            
             <div class="btn-group">
-                <div class="about-footer-btns">
-                    <button class="tiny-btn" onclick="openModal('usersModal')">קריאה למשתמשים</button>
-                    <button class="tiny-btn" onclick="openModal('researchModal')">קריאה לחוקרים</button>
-                </div>
-                <button class="disclaimer-link" onclick="openModal('disclaimerModal')">אחריות השימוש</button>
+                <button class="secondary-btn" onclick="openModal('usersModal')">קריאה למשתמשים</button>
+                <button class="secondary-btn" onclick="openModal('researchModal')">קריאה לחוקרים</button>
                 <br>
                 <button class="main-btn" onclick="showScreen(3)">להמשך להוראות</button>
             </div>
         </div>
     </div>
 
-    <div id="usersModal" class="modal">
-        <div class="modal-content">
-            <h3>קריאה למשתמשים</h3>
-            <p>אנו מזמינים אנשים הסובלים משיתוק עצב הפנים להשתמש ב‑MirrorSmile כחלק מתהליך ההחלמה, בקצב אישי, בסבלנות ובהקשבה לגוף.</p>
-            <p>נשמח לקבל משוב, חוויות שימוש, הצעות לשיפור ורעיונות לפיתוח עתידי.</p>
-            <button class="close-modal" onclick="closeModal('usersModal')">סגור</button>
-        </div>
-    </div>
-
-    <div id="researchModal" class="modal">
-        <div class="modal-content">
-            <h3>קריאה לחוקרים</h3>
-            <p>חוקרים, רופאים ומוסדות אקדמיים מוזמנים להשתמש ב‑MirrorSmile ללא תמורה, לצורכי מחקר רפואי‑מדעי.</p>
-            <p><strong>תנאי יחיד:</strong> כל פרסום, מאמר או עבודה אקדמית המבוססים על שימוש באפליקציה יכללו רפרנס ברור אל דקל צידון, ישי זבולון ואפליקציית MirrorSmile.</p>
-            <button class="close-modal" onclick="closeModal('researchModal')">סגור</button>
-        </div>
-    </div>
-
-    <div id="disclaimerModal" class="modal">
-        <div class="modal-content">
-            <h3>חשוב לדעת</h3>
-            <p>אפליקציה זו אינה מכשיר רפואי ואינה מהווה ייעוץ רפואי, אבחון או טיפול. השימוש באפליקציה נעשה באחריות המשתמש בלבד.</p>
-            <p>אין להפסיק או לשנות טיפול רפואי, פיזיותרפי או מעקב קליני ללא התייעצות עם רופא. במקרה של כאב או החמרה — יש להפסיק את השימוש ולפנות לאיש מקצוע.</p>
-            <button class="close-modal" onclick="closeModal('disclaimerModal')">הבנתי</button>
-        </div>
-    </div>
-
     <div id="screen-3" class="screen" style="display:none; opacity:0;">
         <div class="content-card">
-            <h2>איך זה עובד?</h2>
-            <ul style="text-align: right; line-height: 1.8; margin-bottom: 25px; padding-right: 20px;">
-                <li>עמדו מול המצלמה והביטו קדימה בקו ישר.</li>
-                <li>בחרו את הצד הבריא (ימין/שמאל) כדי לשקף אותו על הצד המשותק.</li>
-                <li>השתמשו בסליידר לכיוונון ידני מדויק במידת הצורך.</li>
+            <h2>הוראות שימוש</h2>
+            <ul class="instructions-list">
+                <li><strong>הצב</strong> את המכשיר על חצובה, ישירות מול הפנים.</li>
+                <li><strong>דאג</strong> לתאורה אחידה, סביבה שקטה ופרטיות.</li>
+                <li><strong>מקם</strong> את הפנים במרכז המסך, מבט ישר קדימה.</li>
+                <li><strong>שכפל</strong> את הצד הבריא וחפש סימטריה טבעית.</li>
+                <li><strong>תרגל</strong> בעזרת שתי הידיים במקביל.</li>
             </ul>
-            <button class="main-btn" onclick="startCamera()">הבנתי, בואו נתחיל</button>
+            <button class="main-btn" onclick="showScreen(4)">המשך לאחריות שימוש</button>
         </div>
     </div>
+
+    <div id="screen-4" class="screen" style="display:none; opacity:0;">
+        <div class="content-card">
+            <div class="disclaimer-box">
+                <h3>חשוב לדעת: אחריות המשתמש</h3>
+                <p>אפליקציה זו אינה מכשיר רפואי ואינה מהווה ייעוץ רפואי, אבחון או טיפול.</p>
+                <p>השימוש באפליקציה נעשה באחריות המשתמש בלבד. אין להפסיק או לשנות טיפול רפואי או פיזיותרפי ללא התייעצות עם רופא מוסמך.</p>
+                <p>במקרה של כאב, החמרה או ספק — יש להפסיק את השימוש ולפנות לאיש מקצוע.</p>
+            </div>
+            <button class="main-btn" onclick="startCamera()">הבנתי, בואו נתחיל</button>
+            <button class="secondary-btn" onclick="showScreen(3)" style="margin-top:10px; border:none; text-decoration:underline; font-size:14px;">חזרה להוראות</button>
+        </div>
+    </div>
+
+    <div id="usersModal" class="modal"><div class="modal-content"><h3>קריאה למשתמשים</h3><p>אנו מזמינים אנשים הסובלים משיתוק עצב הפנים להשתמש ב‑MirrorSmile כחלק מתהליך ההחלמה. נשמח לקבל משוב והצעות לשיפור.</p><button class="close-modal" onclick="closeModal('usersModal')">סגור</button></div></div>
+    <div id="researchModal" class="modal"><div class="modal-content"><h3>קריאה לחוקרים</h3><p>חוקרים מוזמנים להשתמש באפליקציה למחקר. תנאי יחיד: רפרנס ברור לדקל צידון, ישי זבולון ו-MirrorSmile.</p><button class="close-modal" onclick="closeModal('researchModal')">סגור</button></div></div>
 
     <video id="videoElement" playsinline autoplay muted></video>
     <canvas id="mainCanvas"></canvas>
     <canvas id="tempCanvas" style="display:none"></canvas>
+    
     <div id="ui">
         <div id="slider-container">
             <input type="range" id="symmetrySlider" min="0" max="100" value="50" oninput="manualAdjust(this.value)">
@@ -185,13 +171,11 @@
             tCtx.save(); tCtx.clearRect(0,0,canvas.width,canvas.height); tCtx.translate(canvas.width,0); tCtx.scale(-1,1);
             tCtx.drawImage(r.segmentationMask, 0,0,canvas.width,canvas.height);
             tCtx.globalCompositeOperation = 'source-in'; tCtx.drawImage(r.image, 0,0,canvas.width,canvas.height); tCtx.restore();
-
             handleFaceDetection();
             ctx.clearRect(0,0,canvas.width,canvas.height);
             if(currentMode==='none') ctx.drawImage(tempCanvas,0,0);
             else if(currentMode==='left') drawSymmetry(0, smoothNoseX);
             else drawSymmetry(smoothNoseX, canvas.width - smoothNoseX);
-
             if(showGuide && (isManual || currentMode!=='none')) {
                 ctx.beginPath(); ctx.strokeStyle='rgba(78,186,186,0.4)'; ctx.moveTo(smoothNoseX,0); ctx.lineTo(smoothNoseX,canvas.height); ctx.stroke();
             }
