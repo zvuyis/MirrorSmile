@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MirrorSmile</title>
+    <title>MirrorFace - דרך האמצע</title>
     <script src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation"></script>
     <style>
@@ -22,12 +22,10 @@
         }
         
         #app-logo { width: 90px; height: 90px; margin-bottom: 15px; border-radius: 50%; border: 1px solid var(--accent); background: #fff; object-fit: contain; padding: 5px; }
-        h1 { font-size: 30px; margin: 0 0 15px 0; color: #fff; }
+        h1 { font-size: 28px; margin: 0 0 5px 0; color: #fff; }
+        .sub-title { font-size: 16px; color: var(--accent); margin-bottom: 20px; opacity: 0.8; }
         h2 { font-size: 20px; color: var(--accent); margin-bottom: 15px; border-bottom: 1px solid rgba(78, 186, 186, 0.3); padding-bottom: 8px; }
         
-        .intro-text { font-size: 14px; line-height: 1.5; margin-bottom: 15px; text-align: right; font-weight: 300; color: #f0f0f0; }
-        
-        /* הוראות שימוש - גופן מוקטן לשורה אחת */
         .instructions-list { text-align: right; margin: 15px 0; padding: 0; list-style: none; }
         .instructions-list li { margin-bottom: 8px; font-size: 14px; display: flex; align-items: center; gap: 8px; white-space: nowrap; }
         .instructions-list li::before { content: "•"; color: var(--accent); font-weight: bold; }
@@ -57,8 +55,9 @@
 
     <div id="screen-1" class="screen">
         <div class="content-card">
-            <img src="logo.png" id="app-logo" alt="MirrorSmile Logo">
-            <h1>MirrorSmile</h1>
+            <img src="logo.png" id="app-logo" alt="MirrorFace Logo">
+            <h1>MirrorFace</h1>
+            <div class="sub-title">דרך האמצע</div>
             <div class="btn-group">
                 <button class="main-btn" onclick="showScreen(3)">להוראות השימוש</button>
                 <button class="secondary-btn" onclick="showScreen(2)">אודות האפליקציה</button>
@@ -68,10 +67,10 @@
 
     <div id="screen-2" class="screen" style="display:none; opacity:0;">
         <div class="content-card">
-            <h2>אודות MirrorSmile</h2>
-            <div class="intro-text">
-                <p>MirrorSmile נולדה מתוך עקרון <strong>הנוירופלסטיות</strong> — יכולתו של המוח להשתנות ולהחלים בעקבות אימון ומשוב מתאים.</p>
-                <p>האפליקציה מבוססת על עקרונות <strong>Mirror Therapy</strong> — שיטה המשתמשת במשוב חזותי לעידוד הפעלה מוחית, שפותחה על-ידי פרופ' רמאצ'נדרן.</p>
+            <h2>אודות האפליקציה</h2>
+            <div style="text-align: right; font-size: 14px; line-height: 1.5; margin-bottom: 15px;">
+                <p><strong>MirrorFace</strong> נולדה מתוך עקרון הנוירופלסטיות — יכולתו של המוח להשתנות ולהחלים בעקבות אימון ומשוב מתאים.</p>
+                <p>הכלי מבוסס על שיטת Mirror Therapy שפותחה על-ידי פרופ' רמאצ'נדרן לשיקום מוטורי ונוירולוגי.</p>
             </div>
             <div class="btn-group">
                 <button class="secondary-btn" onclick="openModal('usersModal')">קריאה למשתמשים</button>
@@ -99,7 +98,7 @@
     <div id="screen-4" class="screen" style="display:none; opacity:0;">
         <div class="content-card">
             <div class="disclaimer-box">
-                <h3>חשוב לדעת: אחריות המשתמש</h3>
+                <h3>אחריות המשתמש</h3>
                 <p>אפליקציה זו אינה מכשיר רפואי ואינה מהווה ייעוץ רפואי.</p>
                 <p>השימוש נעשה באחריות המשתמש בלבד. אין לשנות טיפול ללא התייעצות עם רופא.</p>
                 <p>במקרה של כאב או ספק — יש להפסיק את השימוש ולפנות לאיש מקצוע.</p>
@@ -108,8 +107,8 @@
         </div>
     </div>
 
-    <div id="usersModal" class="modal"><div class="modal-content"><h3>קריאה למשתמשים</h3><p>אנו מזמינים אנשים הסובלים משיתוק עצב הפנים להשתמש ב‑MirrorSmile כחלק מתהליך ההחלמה. נשמח לקבל משוב והצעות לשיפור.</p><button class="close-modal" onclick="closeModal('usersModal')">סגור</button></div></div>
-    <div id="researchModal" class="modal"><div class="modal-content"><h3>קריאה לחוקרים</h3><p>חוקרים מוזמנים להשתמש באפליקציה למחקר. תנאי יחיד: רפרנס ברור לדקל צידון, ישי זבולון ו-MirrorSmile.</p><button class="close-modal" onclick="closeModal('researchModal')">סגור</button></div></div>
+    <div id="usersModal" class="modal"><div class="modal-content"><h3>קריאה למשתמשים</h3><p>אנו מזמינים אנשים הסובלים משיתוק עצב הפנים להשתמש ב‑MirrorFace כחלק מתהליך ההחלמה. נשמח לקבל משוב והצעות לשיפור.</p><button class="close-modal" onclick="closeModal('usersModal')">סגור</button></div></div>
+    <div id="researchModal" class="modal"><div class="modal-content"><h3>קריאה לחוקרים</h3><p>חוקרים מוזמנים להשתמש באפליקציה למחקר. תנאי יחיד: רפרנס ברור לדקל צידון, ישי זבולון ו-MirrorFace.</p><button class="close-modal" onclick="closeModal('researchModal')">סגור</button></div></div>
 
     <video id="videoElement" playsinline autoplay muted></video>
     <canvas id="mainCanvas"></canvas>
@@ -127,7 +126,7 @@
             <button onclick="takeSnapshot()" class="tool-btn">📸</button>
         </div>
     </div>
-    <div class="watermark">© 2026 | MirrorSmile | Developed by Dekel Tzidon & Yishay Zvulun</div>
+    <div class="watermark">© 2026 | "דרך האמצע" | Developed by Dekel Tzidon & Yishay Zvulun</div>
 
     <script>
         const video = document.getElementById('videoElement');
@@ -200,7 +199,7 @@
         function resetAuto() { isManual = false; }
         function toggleGuide() { showGuide = !showGuide; }
         function setMode(m) { currentMode = m; document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active')); if(m!=='none') document.getElementById('btn'+m.charAt(0).toUpperCase()+m.slice(1)).classList.add('active'); else document.getElementById('btnNone').classList.add('active'); }
-        function takeSnapshot() { const l = document.createElement('a'); l.download = 'MirrorSmile.png'; l.href = canvas.toDataURL(); l.click(); }
+        function takeSnapshot() { const l = document.createElement('a'); l.download = 'MirrorFace.png'; l.href = canvas.toDataURL(); l.click(); }
     </script>
 </body>
 </html>
