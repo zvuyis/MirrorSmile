@@ -8,7 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation"></script>
     <style>
         * { box-sizing: border-box; }
-        :root { --accent: #4ebaba; --bg-glass: rgba(15, 20, 25, 0.92); --text-main: #e0e0e0; --warning: #ffb74d; }
+        :root { --accent: #4ebaba; --bg-glass: rgba(15, 20, 25, 0.92); --text-main: #e0e0e0; --warning: #ffb74d; --record: #ff5252; }
         
         body { margin: 0; background: #0a0c10; overflow: hidden; font-family: 'Segoe UI', Roboto, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; color: var(--text-main); }
         
@@ -54,6 +54,9 @@
         .controls-row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
         button.tool-btn { padding: 10px 14px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); color: #fff; cursor: pointer; font-size: 14px; }
         button.active { background: var(--accent); color: #000; }
+        button.recording { background: var(--record); color: #fff; animation: blink 1.5s infinite; }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+
         #slider-container { width: 90%; max-width: 320px; background: rgba(0,0,0,0.4); padding: 12px 20px; border-radius: 20px; }
         input[type=range] { width: 100%; accent-color: var(--accent); }
         .watermark { position: absolute; bottom: 10px; font-size: 10px; color: rgba(255,255,255,0.25); z-index: 210; width: 100%; text-align: center; pointer-events: none; }
@@ -137,6 +140,7 @@
             <button onclick="setMode('right')" id="btnRight" class="tool-btn">ימין</button>
             <button onclick="toggleGuide()" id="btnGuide" class="tool-btn">👁️</button>
             <button onclick="takeSnapshot()" class="tool-btn">📸</button>
+            <button onclick="toggleVideoRecording()" id="btnRecord" class="tool-btn">📹</button>
         </div>
     </div>
     <div class="watermark">© 2026 | MirrorFace | Developed by Dekel Tzidon & Yishay Zvulun</div>
@@ -149,6 +153,9 @@
         const tCtx = tempCanvas.getContext('2d');
         const slider = document.getElementById('symmetrySlider');
         let currentMode = 'none', smoothNoseX = 0, selfieSegmentation, isManual = false, showGuide = true;
+        
+        // Recording Variables
+        let mediaRecorder, recordedChunks = [], isRecording = false;
 
         function showScreen(num) {
             document.querySelectorAll('.screen').forEach(s => { s.style.opacity = '0'; setTimeout(() => s.style.display = 'none', 400); });
@@ -212,7 +219,29 @@
         function resetAuto() { isManual = false; }
         function toggleGuide() { showGuide = !showGuide; }
         function setMode(m) { currentMode = m; document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active')); if(m!=='none') document.getElementById('btn'+m.charAt(0).toUpperCase()+m.slice(1)).classList.add('active'); else document.getElementById('btnNone').classList.add('active'); }
-        function takeSnapshot() { const l = document.createElement('a'); l.download = 'MirrorFace.png'; l.href = canvas.toDataURL(); l.click(); }
+        
+        function takeSnapshot() { const l = document.createElement('a'); l.download = 'MirrorFace_Snap.png'; l.href = canvas.toDataURL(); l.click(); }
+
+        function toggleVideoRecording() {
+            if (!isRecording) {
+                recordedChunks = [];
+                const stream = canvas.captureStream(30);
+                mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+                mediaRecorder.ondataavailable = e => { if (e.data.size > 0) recordedChunks.push(e.data); };
+                mediaRecorder.onstop = () => {
+                    const blob = new Blob(recordedChunks, { type: 'video/webm' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a'); a.href = url; a.download = 'MirrorFace_Video.webm'; a.click();
+                };
+                mediaRecorder.start();
+                document.getElementById('btnRecord').classList.add('recording');
+                isRecording = true;
+            } else {
+                mediaRecorder.stop();
+                document.getElementById('btnRecord').classList.remove('recording');
+                isRecording = false;
+            }
+        }
     </script>
 </body>
 </html>
