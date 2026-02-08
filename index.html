@@ -7,8 +7,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation"></script>
     <style>
-        * { box-sizing: border-box; } /* מבטיח שהפדינג לא יגדיל את רוחב האלמנט */
-        :root { --accent: #4ebaba; --bg-glass: rgba(15, 20, 25, 0.9); --text-main: #e0e0e0; --warning: #ffb74d; }
+        * { box-sizing: border-box; }
+        :root { --accent: #4ebaba; --bg-glass: rgba(15, 20, 25, 0.92); --text-main: #e0e0e0; --warning: #ffb74d; }
         
         body { margin: 0; background: #0a0c10; overflow: hidden; font-family: 'Segoe UI', Roboto, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; color: var(--text-main); }
         
@@ -21,21 +21,25 @@
             text-align: center; padding: 25px; width: 90vw; max-width: 450px; max-height: 85vh;
             background: var(--bg-glass); border-radius: 30px; backdrop-filter: blur(15px); 
             border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 15px 35px rgba(0,0,0,0.5); 
-            overflow-y: auto; scrollbar-width: none;
+            overflow-y: auto; scrollbar-width: none; -ms-overflow-style: none;
         }
+        .content-card::-webkit-scrollbar { display: none; }
         
-        #app-logo { width: 80px; height: 80px; margin-bottom: 15px; border-radius: 50%; border: 1px solid var(--accent); background: #fff; object-fit: contain; padding: 5px; max-width: 100%; }
+        #app-logo { width: 80px; height: 80px; margin-bottom: 15px; border-radius: 50%; border: 1px solid var(--accent); background: #fff; object-fit: contain; padding: 5px; }
         h1 { font-size: 26px; margin: 0 0 5px 0; color: #fff; }
         .sub-title { font-size: 15px; color: var(--accent); margin-bottom: 20px; opacity: 0.8; }
         h2 { font-size: 19px; color: var(--accent); margin-bottom: 15px; border-bottom: 1px solid rgba(78, 186, 186, 0.3); padding-bottom: 8px; }
         
+        .info-text { text-align: right; font-size: 13.5px; line-height: 1.6; margin-bottom: 20px; color: #f0f0f0; }
+        .info-text p { margin-bottom: 12px; }
+
         .instructions-list { text-align: right; margin: 15px 0; padding: 0; list-style: none; width: 100%; }
-        .instructions-list li { margin-bottom: 10px; font-size: 13px; display: flex; align-items: center; gap: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .instructions-list li { margin-bottom: 10px; font-size: 13px; display: flex; align-items: center; gap: 8px; white-space: nowrap; }
         .instructions-list li::before { content: "•"; color: var(--accent); font-weight: bold; flex-shrink: 0; }
 
         .btn-group { display: flex; flex-direction: column; gap: 10px; width: 100%; align-items: center; }
         .main-btn { width: 100%; max-width: 260px; padding: 12px; border-radius: 30px; background: var(--accent); color: #000; font-size: 16px; font-weight: 600; border: none; cursor: pointer; transition: 0.2s; }
-        .secondary-btn { width: 100%; max-width: 260px; padding: 10px; border-radius: 30px; background: transparent; color: var(--accent); font-size: 15px; border: 1px solid var(--accent); cursor: pointer; }
+        .secondary-btn { width: 100%; max-width: 260px; padding: 10px; border-radius: 30px; background: transparent; color: var(--accent); font-size: 14px; border: 1px solid var(--accent); cursor: pointer; }
         
         .disclaimer-box { background: rgba(255, 183, 77, 0.1); border: 1px solid var(--warning); padding: 15px; border-radius: 20px; text-align: right; margin-bottom: 20px; width: 100%; }
         .disclaimer-box h3 { color: var(--warning); margin-top: 0; font-size: 16px; }
@@ -70,10 +74,12 @@
 
     <div id="screen-2" class="screen" style="display:none; opacity:0;">
         <div class="content-card">
-            <h2>אודות האפליקציה</h2>
-            <div style="text-align: right; font-size: 13px; line-height: 1.5; margin-bottom: 15px;">
-                <p><strong>MirrorFace</strong> נולדה מתוך עקרון הנוירופלסטיות — יכולתו של המוח להשתנות ולהחלים בעקבות אימון ומשוב מתאים.</p>
-                <p>הכלי מבוסס על שיטת Mirror Therapy שפותחה על-ידי פרופ' רמאצ'נדרן לשיקום מוטורי ונוירולוגי.</p>
+            <h2>אודות MirrorFace</h2>
+            <div class="info-text">
+                <p><strong>MirrorFace</strong> נולדה מתוך עקרון הנוירופלסטיות — יכולתו של המוח להשתנות, להסתגל ולהחלים בעקבות אימון, חזרה ומשוב מתאים.</p>
+                <p>עיקרון זה מתואר בהרחבה בספר „המוח הגמיש” (The Brain That Changes Itself) מאת נורמן דוידג’, המדגים כיצד תהליכי אימון מכוונים יכולים להשפיע על תפקוד מוחי ושיקומי. בפרק 7 בספר מתוארת בין השאר תרומתו של פרופ’ רמאצ’נדרן לשדה זה.</p>
+                <p>האפליקציה מבוססת על עקרונות Mirror Therapy — שיטה שיקומית המשתמשת במשוב חזותי כדי לעודד הפעלה מוחית ותנועתית.</p>
+                <p>השיטה פותחה על‑ידי הנוירולוג <strong>Vilayanur S. Ramachandran</strong>, תחילה לטיפול בכאבי פנטום ובהמשך יושמה גם בשיקום מוטורי ונוירולוגי, כולל שיתוקי פנים.</p>
             </div>
             <div class="btn-group">
                 <button class="secondary-btn" onclick="openModal('usersModal')">קריאה למשתמשים</button>
