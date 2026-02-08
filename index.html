@@ -31,6 +31,8 @@
         h2 { font-size: 19px; color: var(--accent); margin-bottom: 15px; border-bottom: 1px solid rgba(78, 186, 186, 0.3); padding-bottom: 8px; }
         
         .info-text { text-align: right; font-size: 13.5px; line-height: 1.6; margin-bottom: 20px; color: #f0f0f0; }
+        .info-text p { margin-bottom: 12px; }
+
         .instructions-list { text-align: right; margin: 15px 0; padding: 0; list-style: none; width: 100%; }
         .instructions-list li { margin-bottom: 12px; font-size: 13px; line-height: 1.5; display: flex; align-items: flex-start; gap: 8px; }
         .instructions-list li::before { content: "•"; color: var(--accent); font-weight: bold; flex-shrink: 0; margin-top: 2px; }
@@ -40,6 +42,10 @@
         .main-btn { width: 100%; max-width: 260px; padding: 12px; border-radius: 30px; background: var(--accent); color: #000; font-size: 16px; font-weight: 600; border: none; cursor: pointer; transition: 0.2s; }
         .secondary-btn { width: 100%; max-width: 260px; padding: 10px; border-radius: 30px; background: transparent; color: var(--accent); font-size: 14px; border: 1px solid var(--accent); cursor: pointer; }
         
+        .disclaimer-box { background: rgba(255, 183, 77, 0.1); border: 1px solid var(--warning); padding: 18px; border-radius: 20px; text-align: right; margin-bottom: 20px; width: 100%; }
+        .disclaimer-box h3 { color: var(--warning); margin-top: 0; font-size: 18px; margin-bottom: 12px; }
+        .disclaimer-box p { font-size: 13px; line-height: 1.5; margin-bottom: 10px; color: #fff; }
+
         #ui { position: absolute; bottom: 40px; width: 100%; display: none; flex-direction: column; align-items: center; gap: 15px; z-index: 100; padding: 0 10px; }
         .controls-row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
         button.tool-btn { padding: 10px 14px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); color: #fff; cursor: pointer; font-size: 14px; }
@@ -50,6 +56,7 @@
         #slider-container { width: 90%; max-width: 320px; background: rgba(0,0,0,0.4); padding: 12px 20px; border-radius: 20px; }
         input[type=range] { width: 100%; accent-color: var(--accent); }
         .watermark { position: absolute; bottom: 10px; font-size: 10px; color: rgba(255,255,255,0.25); z-index: 210; width: 100%; text-align: center; pointer-events: none; }
+        
         .modal { display: none; position: fixed; z-index: 300; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); justify-content: center; align-items: center; }
         .modal-content { background: #1a1e23; padding: 20px; border-radius: 20px; width: 85%; max-width: 380px; text-align: right; border: 1px solid var(--accent); }
         .close-modal { width: 100%; margin-top: 15px; padding: 10px; background: var(--accent); border: none; border-radius: 10px; cursor: pointer; font-weight: bold; }
@@ -72,10 +79,11 @@
     <div id="screen-2" class="screen" style="display:none; opacity:0;">
         <div class="content-card">
             <h2>אודות MirrorFace</h2>
-            <div class="info-text" style="text-align: right; font-size: 13.5px; line-height: 1.6;">
+            <div class="info-text">
                 <p><strong>MirrorFace</strong> נולדה מתוך עקרון הנוירופלסטיות — יכולתו של המוח להשתנות, להסתגל ולהחלים בעקבות אימון, חזרה ומשוב מתאים.</p>
-                <p>עיקרון זה מתואר בהרחבה בספר „המוח הגמיש” (The Brain That Changes Itself) מאת נורמן דוידג’.</p>
-                <p>האפליקציה מבוססת על עקרונות Mirror Therapy — שיטה שיקומית שפותחה על‑ידי הנוירולוג <strong>Vilayanur S. Ramachandran</strong>.</p>
+                <p>עיקרון זה מתואר בהרחבה בספר „המוח הגמיש” (The Brain That Changes Itself) מאת נורמן דוידג’, המדגים כיצד תהליכי אימון מכוונים יכולים להשפיע על תפקוד מוחי ושיקומי. בפרק 7 בספר מתוארת בין השאר תרומתו של פרופ’ רמאצ’נדרן לשדה זה.</p>
+                <p>האפליקציה מבוססת על עקרונות Mirror Therapy — שיטה שיקומית המשתמשת במשוב חזותי כדי לעודד הפעלה מוחית ותנועתית.</p>
+                <p>השיטה פותחה על‑ידי הנוירולוג <strong>Vilayanur S. Ramachandran</strong>, תחילה לטיפול בכאבי פנטום ובהמשך יושמה גם בשיקום מוטורי ונוירולוגי, כולל שיתוקי פנים.</p>
             </div>
             <div class="btn-group">
                 <button class="secondary-btn" onclick="openModal('usersModal')">קריאה למשתמשים</button>
@@ -96,7 +104,7 @@
                 <li>תרגל בעזרת שתי הידיים במקביל, בהתאם להנחיות המטפל שלך</li>
             </ul>
             <div class="info-text instruction-goal">
-                מטרת התרגול היא לאפשר למוח „להשתכנע” שהתנועה אפשרית, בטוחה ותקינה.
+                מטרת התרגול היא לאפשר למוח „להשתכנע” שהתנועה אפשרית, בטוחה ותקינה — ולתמוך בתהליך הלמידה‑מחדש.
             </div>
             <button class="main-btn" onclick="showScreen(4)">המשך לאחריות שימוש</button>
         </div>
@@ -104,9 +112,11 @@
 
     <div id="screen-4" class="screen" style="display:none; opacity:0;">
         <div class="content-card">
-            <div style="background: rgba(255, 183, 77, 0.1); border: 1px solid var(--warning); padding: 15px; border-radius: 20px; text-align: right; margin-bottom: 20px;">
-                <h3 style="color: var(--warning); margin:0 0 10px 0;">אחריות המשתמש</h3>
-                <p style="font-size: 12px; line-height: 1.4;">אפליקציה זו אינה מכשיר רפואי. השימוש נעשה באחריות המשתמש בלבד.</p>
+            <div class="disclaimer-box">
+                <h3>אחריות המשתמש</h3>
+                <p>אפליקציה זו אינה מכשיר רפואי ואינה מהווה ייעוץ רפואי.</p>
+                <p>השימוש נעשה באחריות המשתמש בלבד. אין לשנות טיפול ללא התייעצות עם רופא.</p>
+                <p>במקרה של כאב או ספק — יש להפסיק את השימוש ולפנות לאיש מקצוע.</p>
             </div>
             <button class="main-btn" onclick="startCamera()">הבנתי, בואו נתחיל</button>
         </div>
@@ -133,8 +143,8 @@
     </div>
     <div class="watermark">© 2026 | MirrorFace | Developed by Dekel Tzidon & Yishay Zvulun</div>
 
-    <div id="usersModal" class="modal"><div class="modal-content"><h3>קריאה למשתמשים</h3><p>אנו מזמינים אנשים הסובלים משיתוק עצב הפנים להשתמש ב‑MirrorFace. נשמח למשוב.</p><button class="close-modal" onclick="closeModal('usersModal')">סגור</button></div></div>
-    <div id="researchModal" class="modal"><div class="modal-content"><h3>קריאה לחוקרים</h3><p>חוקרים מוזמנים להשתמש למחקר עם קרדיט מתאים.</p><button class="close-modal" onclick="closeModal('researchModal')">סגור</button></div></div>
+    <div id="usersModal" class="modal"><div class="modal-content"><h3>קריאה למשתמשים</h3><p>אנו מזמינים אנשים הסובלים משיתוק עצב הפנים להשתמש ב‑MirrorFace כחלק מתהליך ההחלמה. נשמח לקבל משוב והצעות לשיפור.</p><button class="close-modal" onclick="closeModal('usersModal')">סגור</button></div></div>
+    <div id="researchModal" class="modal"><div class="modal-content"><h3>קריאה לחוקרים</h3><p>חוקרים מוזמנים להשתמש באפליקציה למחקר. תנאי יחיד: רפרנס ברור לדקל צידון, ישי זבולון ו-MirrorFace.</p><button class="close-modal" onclick="closeModal('researchModal')">סגור</button></div></div>
 
     <script>
         const video = document.getElementById('videoElement');
@@ -172,16 +182,10 @@
         }
 
         function finishSession() {
-            // 1. עצירת המצלמה
-            if (streamRef) {
-                streamRef.getTracks().forEach(track => track.stop());
-                streamRef = null;
-            }
-            // 2. איפוס UI
+            if (streamRef) { streamRef.getTracks().forEach(t => t.stop()); streamRef = null; }
             canvas.style.display = 'none';
             document.getElementById('ui').style.display = 'none';
             setMode('none');
-            // 3. חזרה למסך הראשון
             showScreen(1);
         }
 
@@ -221,26 +225,25 @@
         function manualAdjust(v) { isManual = true; smoothNoseX = (v/100)*canvas.width; }
         function resetAuto() { isManual = false; }
         function toggleGuide() { showGuide = !showGuide; }
-        function setMode(m) { currentMode = m; document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active')); if(m!=='none' && document.getElementById('btn'+m.charAt(0).toUpperCase()+m.slice(1))) document.getElementById('btn'+m.charAt(0).toUpperCase()+m.slice(1)).classList.add('active'); else if(document.getElementById('btnNone')) document.getElementById('btnNone').classList.add('active'); }
+        function setMode(m) { 
+            currentMode = m; 
+            document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active')); 
+            const activeBtn = document.getElementById('btn' + m.charAt(0).toUpperCase() + m.slice(1));
+            if(activeBtn) activeBtn.classList.add('active');
+            else if(m === 'none') document.getElementById('btnNone').classList.add('active');
+        }
         function takeSnapshot() { const l = document.createElement('a'); l.download = 'MirrorFace_Snap.png'; l.href = canvas.toDataURL(); l.click(); }
         function toggleVideoRecording() {
             if (!isRecording) {
                 recordedChunks = [];
-                const stream = canvas.captureStream(30);
-                mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
-                mediaRecorder.ondataavailable = e => { if (e.data.size > 0) recordedChunks.push(e.data); };
+                mediaRecorder = new MediaRecorder(canvas.captureStream(30), { mimeType: 'video/webm' });
+                mediaRecorder.ondataavailable = e => recordedChunks.push(e.data);
                 mediaRecorder.onstop = () => {
-                    const blob = new Blob(recordedChunks, { type: 'video/webm' });
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a'); a.href = url; a.download = 'MirrorFace_Video.webm'; a.click();
+                    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(recordedChunks, { type: 'video/webm' })); a.download = 'MirrorFace_Video.webm'; a.click();
                 };
-                mediaRecorder.start();
-                document.getElementById('btnRecord').classList.add('recording');
-                isRecording = true;
+                mediaRecorder.start(); document.getElementById('btnRecord').classList.add('recording'); isRecording = true;
             } else {
-                mediaRecorder.stop();
-                document.getElementById('btnRecord').classList.remove('recording');
-                isRecording = false;
+                mediaRecorder.stop(); document.getElementById('btnRecord').classList.remove('recording'); isRecording = false;
             }
         }
     </script>
