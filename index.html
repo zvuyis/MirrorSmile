@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>MirrorFace - דרך האמצע</title>
+    <title>MirrorFace</title>
     <script src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation"></script>
     <style>
@@ -26,8 +26,8 @@
         .content-card::-webkit-scrollbar { display: none; }
         
         #app-logo { width: 80px; height: 80px; margin-bottom: 15px; border-radius: 50%; border: 1px solid var(--accent); background: #fff; object-fit: contain; padding: 5px; }
-        h1 { font-size: 26px; margin: 0 0 5px 0; color: #fff; }
-        .sub-title { font-size: 15px; color: var(--accent); margin-bottom: 20px; opacity: 0.8; }
+        h1 { font-size: 28px; margin: 0 0 5px 0; color: #fff; }
+        .sub-title { font-size: 14px; color: var(--accent); margin-bottom: 20px; opacity: 0.9; line-height: 1.4; }
         h2 { font-size: 19px; color: var(--accent); margin-bottom: 15px; border-bottom: 1px solid rgba(78, 186, 186, 0.3); padding-bottom: 8px; }
         
         .info-text { text-align: right; font-size: 13.5px; line-height: 1.6; margin-bottom: 20px; color: #f0f0f0; }
@@ -64,7 +64,7 @@
         <div class="content-card">
             <img src="logo.png" id="app-logo" alt="MirrorFace Logo">
             <h1>MirrorFace</h1>
-            <div class="sub-title">דרך האמצע</div>
+            <div class="sub-title">פותחה על ידי דקל צידון וישי זבולון</div>
             <div class="btn-group">
                 <button class="main-btn" onclick="showScreen(3)">להוראות השימוש</button>
                 <button class="secondary-btn" onclick="showScreen(2)">אודות האפליקציה</button>
@@ -135,7 +135,7 @@
             <button onclick="takeSnapshot()" class="tool-btn">📸</button>
         </div>
     </div>
-    <div class="watermark">© 2026 | MirrorFace - "דרך האמצע" | Developed by Dekel Tzidon & Yishay Zvulun</div>
+    <div class="watermark">© 2026 | MirrorFace | Developed by Dekel Tzidon & Yishay Zvulun</div>
 
     <script>
         const video = document.getElementById('videoElement');
