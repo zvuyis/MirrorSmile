@@ -34,8 +34,9 @@
         .info-text p { margin-bottom: 12px; }
 
         .instructions-list { text-align: right; margin: 15px 0; padding: 0; list-style: none; width: 100%; }
-        .instructions-list li { margin-bottom: 10px; font-size: 13px; display: flex; align-items: center; gap: 8px; white-space: nowrap; }
-        .instructions-list li::before { content: "•"; color: var(--accent); font-weight: bold; flex-shrink: 0; }
+        .instructions-list li { margin-bottom: 12px; font-size: 13px; line-height: 1.5; display: flex; align-items: flex-start; gap: 8px; }
+        .instructions-list li::before { content: "•"; color: var(--accent); font-weight: bold; flex-shrink: 0; margin-top: 2px; }
+        .instruction-goal { font-size: 12.5px; margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; font-style: italic; opacity: 0.9; }
 
         .btn-group { display: flex; flex-direction: column; gap: 10px; width: 100%; align-items: center; }
         .main-btn { width: 100%; max-width: 260px; padding: 12px; border-radius: 30px; background: var(--accent); color: #000; font-size: 16px; font-weight: 600; border: none; cursor: pointer; transition: 0.2s; }
@@ -93,12 +94,15 @@
         <div class="content-card">
             <h2>הוראות שימוש</h2>
             <ul class="instructions-list">
-                <li><strong>הצב</strong> את המכשיר על חצובה, מול הפנים.</li>
-                <li><strong>דאג</strong> לתאורה אחידה, שקט ופרטיות.</li>
-                <li><strong>מקם</strong> את הפנים במרכז המסך, מבט ישר.</li>
-                <li><strong>שכפל</strong> צד בריא וחפש סימטריה טבעית.</li>
-                <li><strong>תרגל</strong> בעזרת שתי הידיים במקביל.</li>
+                <li>הצב את המכשיר על חצובה, ישירות מול הפנים — בדומה למראה</li>
+                <li>דאג לתאורה אחידה, סביבה שקטה ופרטיות</li>
+                <li>מקם את הפנים במרכז המסך, מבט ישר קדימה</li>
+                <li>שכפל את הצד הבריא וחפש סימטריה נוחה וטבעית</li>
+                <li>תרגל בעזרת שתי הידיים במקביל, בהתאם להנחיות המטפל שלך</li>
             </ul>
+            <div class="info-text instruction-goal">
+                מטרת התרגול היא לאפשר למוח „להשתכנע” שהתנועה אפשרית, בטוחה ותקינה — ולתמוך בתהליך הלמידה‑מחדש.
+            </div>
             <button class="main-btn" onclick="showScreen(4)">המשך לאחריות שימוש</button>
         </div>
     </div>
