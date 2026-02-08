@@ -31,8 +31,6 @@
         h2 { font-size: 19px; color: var(--accent); margin-bottom: 15px; border-bottom: 1px solid rgba(78, 186, 186, 0.3); padding-bottom: 8px; }
         
         .info-text { text-align: right; font-size: 13.5px; line-height: 1.6; margin-bottom: 20px; color: #f0f0f0; }
-        .info-text p { margin-bottom: 12px; }
-
         .instructions-list { text-align: right; margin: 15px 0; padding: 0; list-style: none; width: 100%; }
         .instructions-list li { margin-bottom: 12px; font-size: 13px; line-height: 1.5; display: flex; align-items: flex-start; gap: 8px; }
         .instructions-list li::before { content: "•"; color: var(--accent); font-weight: bold; flex-shrink: 0; margin-top: 2px; }
@@ -81,9 +79,8 @@
             <h2>אודות MirrorFace</h2>
             <div class="info-text">
                 <p><strong>MirrorFace</strong> נולדה מתוך עקרון הנוירופלסטיות — יכולתו של המוח להשתנות, להסתגל ולהחלים בעקבות אימון, חזרה ומשוב מתאים.</p>
-                <p>עיקרון זה מתואר בהרחבה בספר „המוח הגמיש” (The Brain That Changes Itself) מאת נורמן דוידג’, המדגים כיצד תהליכי אימון מכוונים יכולים להשפיע על תפקוד מוחי ושיקומי. בפרק 7 בספר מתוארת בין השאר תרומתו של פרופ’ רמאצ’נדרן לשדה זה.</p>
-                <p>האפליקציה מבוססת על עקרונות Mirror Therapy — שיטה שיקומית המשתמשת במשוב חזותי כדי לעודד הפעלה מוחית ותנועתית.</p>
-                <p>השיטה פותחה על‑ידי הנוירולוג <strong>Vilayanur S. Ramachandran</strong>, תחילה לטיפול בכאבי פנטום ובהמשך יושמה גם בשיקום מוטורי ונוירולוגי, כולל שיתוקי פנים.</p>
+                <p>עיקרון זה מתואר בהרחבה בספר „המוח הגמיש” (The Brain That Changes Itself) מאת נורמן דוידג’.</p>
+                <p>האפליקציה מבוססת על עקרונות Mirror Therapy שפותחה על‑ידי הנוירולוג Vilayanur S. Ramachandran.</p>
             </div>
             <div class="btn-group">
                 <button class="secondary-btn" onclick="openModal('usersModal')">קריאה למשתמשים</button>
@@ -104,7 +101,7 @@
                 <li>תרגל בעזרת שתי הידיים במקביל, בהתאם להנחיות המטפל שלך</li>
             </ul>
             <div class="info-text instruction-goal">
-                מטרת התרגול היא לאפשר למוח „להשתכנע” שהתנועה אפשרית, בטוחה ותקינה — ולתמוך בתהליך הלמידה‑מחדש.
+                מטרת התרגול היא לאפשר למוח „להשתכנע” שהתנועה אפשרית, בטוחה ותקינה.
             </div>
             <button class="main-btn" onclick="showScreen(4)">המשך לאחריות שימוש</button>
         </div>
@@ -115,8 +112,7 @@
             <div class="disclaimer-box">
                 <h3>אחריות המשתמש</h3>
                 <p>אפליקציה זו אינה מכשיר רפואי ואינה מהווה ייעוץ רפואי.</p>
-                <p>השימוש נעשה באחריות המשתמש בלבד. אין לשנות טיפול ללא התייעצות עם רופא.</p>
-                <p>במקרה של כאב או ספק — יש להפסיק את השימוש ולפנות לאיש מקצוע.</p>
+                <p>השימוש נעשה באחריות המשתמש בלבד.</p>
             </div>
             <button class="main-btn" onclick="startCamera()">הבנתי, בואו נתחיל</button>
         </div>
@@ -143,8 +139,8 @@
     </div>
     <div class="watermark">© 2026 | MirrorFace | Developed by Dekel Tzidon & Yishay Zvulun</div>
 
-    <div id="usersModal" class="modal"><div class="modal-content"><h3>קריאה למשתמשים</h3><p>אנו מזמינים אנשים הסובלים משיתוק עצב הפנים להשתמש ב‑MirrorFace כחלק מתהליך ההחלמה. נשמח לקבל משוב והצעות לשיפור.</p><button class="close-modal" onclick="closeModal('usersModal')">סגור</button></div></div>
-    <div id="researchModal" class="modal"><div class="modal-content"><h3>קריאה לחוקרים</h3><p>חוקרים מוזמנים להשתמש באפליקציה למחקר. תנאי יחיד: רפרנס ברור לדקל צידון, ישי זבולון ו-MirrorFace.</p><button class="close-modal" onclick="closeModal('researchModal')">סגור</button></div></div>
+    <div id="usersModal" class="modal"><div class="modal-content"><h3>קריאה למשתמשים</h3><p>אנו מזמינים אתכם להשתמש באפליקציה כחלק מתהליך ההחלמה.</p><button class="close-modal" onclick="closeModal('usersModal')">סגור</button></div></div>
+    <div id="researchModal" class="modal"><div class="modal-content"><h3>קריאה לחוקרים</h3><p>חוקרים מוזמנים להשתמש באפליקציה למחקר עם קרדיט מתאים.</p><button class="close-modal" onclick="closeModal('researchModal')">סגור</button></div></div>
 
     <script>
         const video = document.getElementById('videoElement');
@@ -171,14 +167,32 @@
         }
 
         async function initModels() {
-            await faceapi.nets.tinyFaceDetector.loadFromUri('https://cdn.jsdelivr.net/npm/@vladmandic/face-api/model/');
-            await faceapi.nets.faceLandmark68Net.loadFromUri('https://cdn.jsdelivr.net/npm/@vladmandic/face-api/model/');
-            selfieSegmentation = new SelfieSegmentation({locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation/${file}`});
-            selfieSegmentation.setOptions({ modelSelection: 1 });
-            selfieSegmentation.onResults(onResults);
-            streamRef = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
-            video.srcObject = streamRef;
-            video.onloadedmetadata = () => { canvas.width = tempCanvas.width = video.videoWidth; canvas.height = tempCanvas.height = video.videoHeight; smoothNoseX = canvas.width/2; sendToSegmentation(); };
+            try {
+                await faceapi.nets.tinyFaceDetector.loadFromUri('https://cdn.jsdelivr.net/npm/@vladmandic/face-api/model/');
+                await faceapi.nets.faceLandmark68Net.loadFromUri('https://cdn.jsdelivr.net/npm/@vladmandic/face-api/model/');
+                selfieSegmentation = new SelfieSegmentation({locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation/${file}`});
+                selfieSegmentation.setOptions({ modelSelection: 1 });
+                selfieSegmentation.onResults(onResults);
+                
+                // הוספת מנגנון טיפול בשגיאות מצלמה
+                streamRef = await navigator.mediaDevices.getUserMedia({ 
+                    video: { 
+                        facingMode: "user",
+                        width: { ideal: 1280 },
+                        height: { ideal: 720 }
+                    } 
+                }).catch(err => {
+                    console.error("Camera Error:", err);
+                    alert("שגיאת מצלמה: וודא שאתה משתמש בחיבור מאובטח (HTTPS) ונתת הרשאה למצלמה בהגדרות הדפדפן.");
+                    throw err;
+                });
+
+                video.srcObject = streamRef;
+                video.onloadedmetadata = () => { canvas.width = tempCanvas.width = video.videoWidth; canvas.height = tempCanvas.height = video.videoHeight; smoothNoseX = canvas.width/2; sendToSegmentation(); };
+            } catch (e) {
+                console.error("Initialization Failed:", e);
+                finishSession();
+            }
         }
 
         function finishSession() {
